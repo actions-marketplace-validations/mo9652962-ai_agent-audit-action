@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# least-privilege：GITHUB_TOKEN 全局只读
+permissions:
+  contents: read
+
+jobs:
+  # 自吃狗粮：用本仓的 action 审计本仓（git 泄漏检查 + action 机制自验）
+  dogfood:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: ./
+        with:
+          checks: git,deps
+          severity-threshold: high
+          upload-artifact: 'false'
