@@ -1,5 +1,5 @@
 name: 'agent-audit'
-description: 'CI 安全门禁：git 泄漏检查与依赖已知漏洞扫描，按严重度失败；可开启 MCP/skill 等 7 项审计（OWASP/NSA 对齐）。
+description: 'CI security gate: git leak + dependency vulnerability scan, fails on severity threshold; 7-check audit, OWASP/NSA aligned.'
 branding:
   icon: 'shield'
   color: 'red'
