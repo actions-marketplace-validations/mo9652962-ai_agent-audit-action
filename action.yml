@@ -16,7 +16,7 @@ inputs:
   version:
     description: 'agent-env-audit 的 PyPI 版本（显式锁定，避免 uvx 缓存漂移）'
     required: false
-    default: '0.1.1'
+    default: '0.1.2'
   config:
     description: '可选 TOML 配置文件路径（paths/ports/endpoints 段）'
     required: false
@@ -60,10 +60,17 @@ runs:
         CONFIG_ARGS=""
         if [ -n "$AUDIT_CONFIG" ]; then CONFIG_ARGS="--config $AUDIT_CONFIG"; fi
         set +e
-        uvx --from "agent-env-audit@$AUDIT_VERSION" agent-audit \
-          --checks "$AUDIT_CHECKS" $CONFIG_ARGS \
-          --format md,json --output-dir "$AUDIT_OUTDIR" \
-          --severity-threshold "$AUDIT_THRESHOLD"
+        if [[ "$AUDIT_VERSION" =~ ^git\+ ]]; then
+          uvx --from "$AUDIT_VERSION" agent-audit \
+            --checks "$AUDIT_CHECKS" $CONFIG_ARGS \
+            --format md,json --output-dir "$AUDIT_OUTDIR" \
+            --severity-threshold "$AUDIT_THRESHOLD"
+        else
+          uvx --from "agent-env-audit@$AUDIT_VERSION" agent-audit \
+            --checks "$AUDIT_CHECKS" $CONFIG_ARGS \
+            --format md,json --output-dir "$AUDIT_OUTDIR" \
+            --severity-threshold "$AUDIT_THRESHOLD"
+        fi
         rc=$?
         set -e
         REPORT_JSON=$(ls "$AUDIT_OUTDIR"/agent-audit-*.json 2>/dev/null | tail -1)
