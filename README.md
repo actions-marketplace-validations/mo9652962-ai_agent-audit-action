@@ -68,6 +68,8 @@ jobs:
 - **只读原则**在 CI 同样成立：不修改被审计仓库，只产出报告与退出码。
 - 所有 `uses:` 全量 SHA 固定（与 agent-audit 同一供应链纪律）。
 
-## License
+## 📄 许可证、安全与隐私 (License, Security & Privacy)
 
-MIT
+- **开源许可证**：[MIT License](LICENSE)
+- **安全政策**：[SECURITY.md](SECURITY.md)
+- **隐私保护**：[PRIVACY.md](PRIVACY.md)（Runner 本地执行、零外部数据外流）
